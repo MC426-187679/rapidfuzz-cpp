@@ -7,7 +7,7 @@
 #include <limits>
 #include <numeric>
 #include <rapidfuzz/details/common.hpp>
-#include <stdexcept>
+#include <iostream>
 
 namespace rapidfuzz {
 namespace string_metric {
@@ -21,7 +21,9 @@ std::vector<std::size_t> levenshtein_matrix(basic_string_view<CharT1> s1,
     std::size_t cols = s2.size() + 1;
     std::size_t matrix_size = rows * cols;
     if (matrix_size / rows != cols) {
-        throw std::length_error("cannot create matrix larger than SIZE_MAX");
+        std::cerr << "cannot create matrix larger than SIZE_MAX (" << SIZE_MAX << ")" << std::endl;
+        cols = SIZE_MAX / rows;
+        matrix_size = cols * rows;
     }
     std::vector<std::size_t> matrix(rows * cols);
 

@@ -11,9 +11,9 @@
 
 #include <cmath>
 #include <numeric>
-#include <stdexcept>
 #include <tuple>
 #include <vector>
+#include <iostream>
 
 namespace rapidfuzz {
 namespace string_metric {
@@ -436,7 +436,12 @@ std::size_t hamming(const Sentence1& s1, const Sentence2& s2,
     auto sentence2 = common::to_string_view(s2);
 
     if (sentence1.size() != sentence2.size()) {
-        throw std::invalid_argument("s1 and s2 are not the same length.");
+        std::cerr << "s1 and s2 are not the same length." << std::endl;
+        if (sentence1.size() < sentence2.size()) {
+            sentence1.remove_suffix(sentence2.size() - sentence1.size());
+        } else {
+            sentence2.remove_suffix(sentence1.size() - sentence2.size());
+        }
     }
 
     std::size_t hamm = 0;
@@ -547,8 +552,13 @@ double jaro_winkler_similarity(const Sentence1& s1, const Sentence2& s2, double 
     auto sentence1 = common::to_string_view(s1);
     auto sentence2 = common::to_string_view(s2);
 
-    if (prefix_weight < 0.0 || prefix_weight > 0.25) {
-        throw std::invalid_argument("prefix_weight has to be between 0.0 - 0.25");
+    if (!(prefix_weight >= 0.0 && prefix_weight <= 0.25)) {
+        std::cerr << "prefix_weight has to be between 0.0 - 0.25" << std::endl;
+        if (prefix_weight < 0.0) {
+            prefix_weight = 0.0;
+        } else {
+            prefix_weight = 0.25;
+        }
     }
 
     return detail::jaro_winkler_similarity(sentence1, sentence2, prefix_weight, score_cutoff);
