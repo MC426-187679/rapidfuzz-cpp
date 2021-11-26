@@ -62,7 +62,7 @@ TEST_CASE("JaroWinklerTest")
                 validate_bitvector_word(flagged_original.P_flag, flagged_bitparallel.P_flag);
                 validate_bitvector_word(flagged_original.T_flag, flagged_bitparallel.T_flag);
                 REQUIRE(flagged_original.CommonChars == flagged_bitparallel.CommonChars);
-            }    
+            }
         }
     }
 
@@ -81,7 +81,7 @@ TEST_CASE("JaroWinklerTest")
 
                 INFO("Name1: " << name1 << ", Name2: " << name2);
                 REQUIRE(Sim_original == Sim_bitparallel);
-            }    
+            }
         }
     }
 
@@ -100,7 +100,7 @@ TEST_CASE("JaroWinklerTest")
 
                 INFO("Name1: " << name1 << ", Name2: " << name2);
                 REQUIRE(Sim_original == Sim_bitparallel);
-            }    
+            }
         }
     }
 
